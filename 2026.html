@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COUNTDOWN Boss</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            transition: background 2s ease-in-out;
+        }
+
+        .countdown-text {
+            font-family: 'Montserrat', sans-serif;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        #fireworks-canvas {
+            position: fixed; /* Fixed position for full screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            display: none;
+            z-index: 0; /* Behind other content */
+        }
+
+        .celebration-text {
+            display: none;
+            position: fixed; /* Fixed position for full screen centering */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 20; /* On top of everything */
+            width: 100%;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .unit-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+        }
+
+        /* Gallery styles */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .gallery-container {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 1 / 1; /* Make images square */
+        }
+
+        #main-content {
+            position: relative;
+            z-index: 10; /* Above canvas */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: center;
+            padding-bottom: 2rem;
+        }
+
+    </style>
+</head>
+<body class="text-white">
+
+    <canvas id="fireworks-canvas"></canvas>
+
+    <div id="main-content">
+        <!-- Countdown UI -->
+        <div id="countdown-container" class="text-center p-8 rounded-3xl backdrop-blur-sm bg-white/5 border border-white/10 shadow-2xl mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold mb-8 tracking-wider">COUNTDOWN 2026</h1>
+            <div class="flex gap-4 md:gap-8 justify-center items-center">
+                <!-- เพิ่มส่วนการแสดงวันกลับมาเพื่อให้ตรงกับสคริปต์ -->
+                <div class="flex flex-col">
+                    <span id="days" class="countdown-text text-5xl md:text-8xl font-black">00</span>
+                    <span class="unit-label">วัน</span>
+                </div>
+                <span class="text-4xl md:text-6xl font-bold mb-8">:</span>
+                <div class="flex flex-col">
+                    <span id="hours" class="countdown-text text-5xl md:text-8xl font-black">00</span>
+                    <span class="unit-label">ชั่วโมง</span>
+                </div>
+                <span class="text-4xl md:text-6xl font-bold mb-8">:</span>
+                <div class="flex flex-col">
+                    <span id="minutes" class="countdown-text text-5xl md:text-8xl font-black">00</span>
+                    <span class="unit-label">นาที</span>
+                </div>
+                <span class="text-4xl md:text-6xl font-bold mb-8">:</span>
+                <div class="flex flex-col">
+                    <span id="seconds" class="countdown-text text-5xl md:text-8xl font-black text-blue-400">00</span>
+                    <span class="unit-label">วินาที</span>
+                </div>
+            </div>
+            <p class="mt-8 text-slate-400 text-lg">Thanks for the memories.</p>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="gallery-container">
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (1).jpg" alt="Gallery Image 1" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (10).jpg" alt="Gallery Image 2" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (2).jpg" alt="Gallery Image 3" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (3).jpg" alt="Gallery Image 4" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (4).jpg" alt="Gallery Image 5" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (5).jpg" alt="Gallery Image 6" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (6).jpg" alt="Gallery Image 7" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (7).jpg" alt="Gallery Image 8" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/d1e011dc-f38a-4b96-a95a-fc95dce1bdb6.jpg" alt="Gallery Image 9" class="gallery-image"></div>
+            <div class="gallery-item"><img src="/Project/2026/img/dasdas (8).jpg" alt="Gallery Image 10" class="gallery-image"></div>
+        </div>
+    </div>
+
+    <!-- Celebration Message -->
+    <div id="celebration" class="celebration-text">
+        <h2 class="text-6xl md:text-9xl font-black mb-4 tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 pulse">
+            HAPPY NEW YEAR!
+        </h2>
+        <h3 class="text-2xl md:text-4xl font-bold text-white opacity-90">ขอให้ทุกคนและตัวกูมีความสุขในปี 2026</h3>
+    </div>
+
+    <script>
+        // --- Countdown Logic ---
+        // สำหรับใช้งานจริง
+        const targetDate = new Date('January 1, 2026 00:00:00').getTime();
+        
+        // สำหรับทดสอบ (นับถอยหลัง 30 วินาที):
+        // const targetDate = new Date().getTime() + 30000;
+
+        const timer = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance <= 0) {
+                clearInterval(timer);
+                triggerNewYear();
+                return;
+            }
+            
+            // คำนวณค่า วัน ชั่วโมง นาที วินาที
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // อัปเดตตัวเลขบนหน้าจอ
+            if(document.getElementById('days')) document.getElementById('days').innerText = String(d).padStart(2, '0');
+            document.getElementById('hours').innerText = String(h).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(m).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(s).padStart(2, '0');
+        }, 1000);
+
+        function triggerNewYear() {
+            // เปลี่ยนพื้นหลังเป็นสีดำ
+            document.body.style.background = '#000000';
+            
+            // ซ่อนเนื้อหาหลัก และแสดงข้อความเฉลิมฉลอง
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+            
+            // เริ่มต้นการจุดพลุ
+            const canvas = document.getElementById('fireworks-canvas');
+            canvas.style.display = 'block';
+            startFireworks();
+        }
+
+        // --- Fireworks Logic (Canvas) ---
+        function startFireworks() {
+            const canvas = document.getElementById('fireworks-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor(x, y, color, velocityX, velocityY) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    this.velocityX = velocityX;
+                    this.velocityY = velocityY;
+                    this.alpha = 1;
+                    this.friction = 0.96;
+                    this.gravity = 0.15;
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.alpha;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                update() {
+                    this.velocityX *= this.friction;
+                    this.velocityY *= this.friction;
+                    this.velocityY += this.gravity;
+                    this.x += this.velocityX;
+                    this.y += this.velocityY;
+                    this.alpha -= 0.012;
+                }
+            }
+
+            function createFirework(x, y) {
+                const colors = ['#ff0000', '#ffd700', '#ffffff', '#ff00ff', '#00ffff', '#00ff00', '#ff8c00'];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const particleCount = 60 + Math.floor(Math.random() * 40);
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = (Math.PI * 2 / particleCount) * i;
+                    const speed = Math.random() * 8 + 2;
+                    particles.push(new Particle(
+                        x, y, color, 
+                        Math.cos(angle) * speed, 
+                        Math.sin(angle) * speed
+                    ));
+                }
+            }
+
+            function animate() {
+                requestAnimationFrame(animate);
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                particles.forEach((p, index) => {
+                    if (p.alpha <= 0) {
+                        particles.splice(index, 1);
+                    } else {
+                        p.update();
+                        p.draw();
+                    }
+                });
+
+                if (Math.random() < 0.05) {
+                    createFirework(
+                        Math.random() * canvas.width, 
+                        Math.random() * canvas.height * 0.7
+                    );
+                }
+            }
+
+            animate();
+        }
+    </script>
+</body>
+</html>
